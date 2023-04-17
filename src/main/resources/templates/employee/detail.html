@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>DailyReport System</title>
+<link rel="stylesheet" th:href="@{/css/detail.css}">
+</head>
+<body>
+<h1>従業員情報詳細ページ</h1>
+<table>
+    <tr><th>社員番号</th><td th:text="${employee.authentication.code}"></td></tr>
+    <tr><th>氏名</th><td th:text="${employee.name}"></td></tr>
+    <tr><th>権限</th><td th:text="${employee.authentication.role}"></td></tr>
+    <tr><th>登録日時</th><td th:text="${employee.created_at}"></td></tr>
+    <tr><th>更新日時</th><td th:text="${employee.updated_at}"></td></tr>
+</table>
+<a th:href="@{/employee/update/{id}/(id=${employee.id})}">この従業員情報を編集する</a><br>
+<a th:href="@{/}">一覧に戻る</a>
+</body>
+</html>

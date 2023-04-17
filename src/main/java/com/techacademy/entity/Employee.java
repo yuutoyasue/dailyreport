@@ -2,18 +2,23 @@ package com.techacademy.entity;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Where;
 
 import lombok.Data;
 
 @Data
 @Entity
 @Table(name = "employee")
+@Where(clause = "delete_flag = 0")
 public class Employee {
 
     /** 主キー自動生成 */
@@ -36,4 +41,8 @@ public class Employee {
     /**更新日時 null不許可*/
     @Column(nullable = false)
     private LocalDateTime updated_at;
+
+    @OneToOne(mappedBy ="employee", cascade = CascadeType.ALL )
+    private Authentication authentication;
+
 }

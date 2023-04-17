@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>DailyReport System</title>
+    <link rel="stylesheet" th:href="@{/css/top.css}">
+</head>
+<body>
+    <h1>日報管理システム</h1>
+    <h2>従業員一覧</h2>
+    <table>
+        <tr>
+            <th>社員番号</th>
+            <th>氏名</th>
+            <th>操作</th>
+        </tr>
+        <tr th:each="data : ${employeelist}">
+            <td th:text="${data.authentication.code}"></td>
+            <td th:text="${data.name}"></td>
+            <td><a th:href="@{/employee/detail/{id}/(id=${data.id})}">詳細を見る</a></td>
+        </table>
+        <a th:href="@{/employee/register}">新規従業員の登録</a>
+</body>
+</html>
