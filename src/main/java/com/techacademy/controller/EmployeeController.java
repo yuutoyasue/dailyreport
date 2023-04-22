@@ -1,5 +1,7 @@
 package com.techacademy.controller;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +24,9 @@ public class EmployeeController {
     /** 一覧画面を表示 */
     @GetMapping({"/", "/employee/list"})
     public String getTop(Model model) {
-        model.addAttribute("employeelist", service.getEmployeeList());
+        List<Employee> employeelist = service.getEmployeeList();
+        model.addAttribute("employeelist",employeelist);
+        model.addAttribute("kensu",employeelist.size());
         // employee/list.htmlに画面遷移
         return "employee/list";
     }
@@ -53,7 +57,9 @@ public class EmployeeController {
     // **更新画面の表示*/
     @GetMapping("employee/update/{id}")
     public String getEmployee(@PathVariable("id") Integer id, Model model) {
-        model.addAttribute("employee", service.getEmployee(id));
+    Employee employee = service.getEmployee(id);
+    employee.getAuthentication().setPassword("");
+        model.addAttribute("employee", employee);
         // 更新画面に遷移
         return "employee/update";
     }

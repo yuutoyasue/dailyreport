@@ -41,8 +41,10 @@ public class EmployeeService {
         employee.setUpdated_at(LocalDateTime.now());
         employee.setDelete_flag(0);
         Authentication authentication = employee.getAuthentication();
+        authentication.setRole(employee.getAuthentication().getRole());
         authentication.setPassword(employee.getAuthentication().getPassword());
         authentication.setEmployee(employee);
+        employee.setAuthentication(authentication);
         return repository.save(employee);
     }
 //更新を行う
@@ -53,9 +55,15 @@ public class EmployeeService {
         update.setCreated_at(LocalDateTime.now());
         update.setUpdated_at(LocalDateTime.now());
         update.setDelete_flag(0);
-        Authentication authentication = employee.getAuthentication();
-        authentication.setPassword(employee.getAuthentication().getPassword());
+        Authentication authentication = update.getAuthentication();
+        authentication.setRole(employee.getAuthentication().getRole());
+        if(!employee.getAuthentication().getPassword().equals("")){
+            authentication.setPassword(employee.getAuthentication().getPassword());
+        }
         authentication.setEmployee(employee);
+        employee.setAuthentication(authentication);
+
+
         return repository.save(update);
     }
 

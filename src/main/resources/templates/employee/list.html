@@ -19,6 +19,8 @@
             <td th:text="${data.name}"></td>
             <td><a th:href="@{/employee/detail/{id}/(id=${data.id})}">詳細を見る</a></td>
         </table>
+        <p th:text="'(全'+${kensu}+'件)'"></p>
         <a th:href="@{/employee/register}">新規従業員の登録</a>
+
 </body>
 </html>
