@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import com.techacademy.entity.Employee;
 import com.techacademy.service.EmployeeService;
 
@@ -48,7 +47,7 @@ public class EmployeeController {
     public String postRegister(Employee employee) {
         service.saveEmployee(employee);
         // 一覧画面にリダイレクト
-        return "redirect:employee/list";
+        return "redirect:/employee/list";
     }
 
     // **更新画面の表示*/
@@ -62,8 +61,8 @@ public class EmployeeController {
     // **更新処理*/
     @PostMapping("employee/update/{id}")
     public String postEmployee(Employee employee) {
-        service.saveEmployee(employee);
-        // 一覧画面にリダイレクト
+        service.updateEmployee(employee);
+   // 一覧画面にリダイレクト
         return "redirect:/employee/list";
     }
 
