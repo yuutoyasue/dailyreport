@@ -57,7 +57,9 @@ public class EmployeeController {
     // **更新画面の表示*/
     @GetMapping("employee/update/{id}")
     public String getEmployee(@PathVariable("id") Integer id, Model model) {
+        //employeeにサービスemployee(id)から取得する
     Employee employee = service.getEmployee(id);
+    //空のパスワードをセットする
     employee.getAuthentication().setPassword("");
         model.addAttribute("employee", employee);
         // 更新画面に遷移

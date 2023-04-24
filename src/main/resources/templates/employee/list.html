@@ -22,5 +22,9 @@
         <p th:text="'(全'+${kensu}+'件)'"></p>
         <a th:href="@{/employee/register}">新規従業員の登録</a>
 
+    <form method="post" th:action="@{/logout}">
+        <input type="submit" value="ログアウト">
+    </form><br>
+
 </body>
 </html>
