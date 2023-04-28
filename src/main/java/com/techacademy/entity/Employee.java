@@ -1,6 +1,7 @@
 package com.techacademy.entity;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -8,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -38,11 +40,15 @@ public class Employee {
     @Column(nullable = false)
     private LocalDateTime created_at;
 
-    /**更新日時 null不許可*/
+    /** 更新日時 null不許可 */
     @Column(nullable = false)
     private LocalDateTime updated_at;
 
-    @OneToOne(mappedBy ="employee", cascade = CascadeType.ALL )
+    @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL)
     private Authentication authentication;
+
+    /** 1なのでOneToMany */
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
+    private List<Report> report;
 
 }

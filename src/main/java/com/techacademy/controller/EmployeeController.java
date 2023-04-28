@@ -22,7 +22,7 @@ public class EmployeeController {
     }
 
     /** 一覧画面を表示 */
-    @GetMapping({"/", "/employee/list"})
+    @GetMapping({"/employee/list"})
     public String getTop(Model model) {
         List<Employee> employeelist = service.getEmployeeList();
         model.addAttribute("employeelist",employeelist);
