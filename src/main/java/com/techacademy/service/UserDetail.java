@@ -10,6 +10,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.techacademy.entity.Employee;
 
+import lombok.Data;
+@Data
 public class UserDetail implements UserDetails {
     private static final long serialVersionUID = 1L;
 

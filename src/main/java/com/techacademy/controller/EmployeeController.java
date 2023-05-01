@@ -13,7 +13,7 @@ import com.techacademy.entity.Employee;
 import com.techacademy.service.EmployeeService;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("employee")
 public class EmployeeController {
     private final EmployeeService service;
 
@@ -22,7 +22,7 @@ public class EmployeeController {
     }
 
     /** 一覧画面を表示 */
-    @GetMapping({"/employee/list"})
+    @GetMapping({"/list"})
     public String getTop(Model model) {
         List<Employee> employeelist = service.getEmployeeList();
         model.addAttribute("employeelist",employeelist);
@@ -32,7 +32,7 @@ public class EmployeeController {
     }
 
     /** 詳細画面の表示 */
-    @GetMapping("employee/detail/{id}/")
+    @GetMapping("/detail/{id}/")
     public String getDetail(@PathVariable("id") Integer id, Model model) {
         model.addAttribute("employee", service.getEmployee(id));
         // employee/detail.htmlに画面遷移
@@ -40,14 +40,14 @@ public class EmployeeController {
     }
 
     // **従業員登録画面の表示*/
-    @GetMapping("employee/register")
+    @GetMapping("/register")
     public String getRegister(@ModelAttribute Employee emloyee) {
         // 登録画面に遷移
         return "employee/register";
     }
 
     /** 登録処理 */
-    @PostMapping("employee/register")
+    @PostMapping("/register")
     public String postRegister(Employee employee) {
         service.saveEmployee(employee);
         // 一覧画面にリダイレクト
@@ -55,7 +55,7 @@ public class EmployeeController {
     }
 
     // **更新画面の表示*/
-    @GetMapping("employee/update/{id}")
+    @GetMapping("/update/{id}")
     public String getEmployee(@PathVariable("id") Integer id, Model model) {
         //employeeにサービスemployee(id)から取得する
     Employee employee = service.getEmployee(id);
@@ -67,7 +67,7 @@ public class EmployeeController {
     }
 
     // **更新処理*/
-    @PostMapping("employee/update/{id}")
+    @PostMapping("/update/{id}")
     public String postEmployee(Employee employee) {
         service.updateEmployee(employee);
    // 一覧画面にリダイレクト
@@ -75,7 +75,7 @@ public class EmployeeController {
     }
 
     // **削除*/
-    @GetMapping("employee/delete/{id}")
+    @GetMapping("/delete/{id}")
     public String getDelete(@PathVariable("id") Integer id, Model model) {
         model.addAttribute("employee", service.getEmployee(id));
         service.deleteEmployee(id);

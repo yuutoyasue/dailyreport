@@ -15,7 +15,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.formLogin(login -> login.loginProcessingUrl("/login")// ユーザ、パスワード送信先
                 .loginPage("/login") // ログイン画面
-                .defaultSuccessUrl("/report/list") // ログイン成功後のリダイレクト先
+                .defaultSuccessUrl("/") // ログイン成功後のリダイレクト先
                 .failureUrl("/login?error") // ログイン失敗時のリダイレクト先
                 .permitAll() // ログイン画面は未ログインでアクセス可
         ).logout(logout -> logout.logoutSuccessUrl("/login") // ログアウト後のリダイレクト先

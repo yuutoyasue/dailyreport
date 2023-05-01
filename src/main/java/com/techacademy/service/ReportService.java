@@ -6,7 +6,6 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.techacademy.entity.Employee;
 import com.techacademy.entity.Report;
 import com.techacademy.repository.ReportRepository;
@@ -17,6 +16,10 @@ public class ReportService {
 
     public ReportService(ReportRepository repository) {
         this.repository = repository;
+    }
+    //index自分の日報を表示
+    public List<Report> getReportList(Employee employee) {
+        return repository.findByEmployee(employee);
     }
 
     // 一覧表示
@@ -35,7 +38,6 @@ public class ReportService {
     @Transactional
     public Report saveReport(Report report) {
         // reportのデータをセットする
-
         report.setReport_date(report.getReport_date());
         report.setTitle(report.getTitle());
         report.setContent(report.getContent());
@@ -47,6 +49,21 @@ public class ReportService {
         report.setEmployee(employee);
         // リポジトリ（report）にセーブして返す
         return repository.save(report);
+    }
+    //更新を行う
+    @Transactional
+    public Report updateReport(Report report) {
+        Report update = repository.findById(report.getId()).get();
+        update.setReport_date(report.getReport_date());
+        update.setTitle(report.getTitle());
+        update.setContent(report.getContent());
+        update.setUpdated_at(LocalDateTime.now());
+
+        Employee employee = update.getEmployee();
+        employee.setName(report.getEmployee().getName());
+
+        report.setEmployee(employee);
+        return repository.save(update);
     }
 
 }
