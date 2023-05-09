@@ -17,71 +17,85 @@ import com.techacademy.service.UserDetail;
 @Controller
 @RequestMapping("report")
 public class ReportController {
-    private final ReportService service;
+	private final ReportService service;
 
-    public ReportController(ReportService service) {
-        this.service = service;
-    }
-    //index自分の日報一覧画面を表示
-    @GetMapping({ "/index" })
-    public String getIndex(Model model, @AuthenticationPrincipal UserDetail user) {
-        List<Report> reportlist = service.getReportList(user.getEmployee());
-        model.addAttribute("reportlist", reportlist);
-        model.addAttribute("kensu", reportlist.size());
-        //report/list.htmlに画面遷移
-        return "report/index";
-        }
+	public ReportController(ReportService service) {
+		this.service = service;
+	}
 
-    /** 一覧画面を表示 */
-    @GetMapping({ "/list" })
-    public String getTop(Model model, @AuthenticationPrincipal UserDetail user) {
-        List<Report> reportlist = service.getReportList();
-        model.addAttribute("reportlist", reportlist);
-        model.addAttribute("kensu", reportlist.size());
-        // report/list.htmlに画面遷移
-        return "report/list";
-    }
+	// index自分の日報一覧画面を表示
+	@GetMapping({ "/index" })
+	public String getIndex(Model model, @AuthenticationPrincipal UserDetail user) {
+		List<Report> reportlist = service.getReportList(user.getEmployee());
+		model.addAttribute("reportlist", reportlist);
+		model.addAttribute("kensu", reportlist.size());
+		// report/list.htmlに画面遷移
+		return "report/index";
+	}
 
-    /** 詳細画面の表示 */
-    @GetMapping("/detail/{id}/")
-    public String getDetail(@PathVariable("id") Integer id, Model model) {
-        model.addAttribute("report", service.getReport(id));
-        // report/detail.htmlに画面遷移
-        return "report/detail";
-    }
+	/** 一覧画面を表示 */
+	@GetMapping({ "/list" })
+	public String getTop(Model model, @AuthenticationPrincipal UserDetail user) {
+		List<Report> reportlist = service.getReportList();
+		model.addAttribute("reportlist", reportlist);
+		model.addAttribute("kensu", reportlist.size());
+		// report/list.htmlに画面遷移
+		return "report/list";
+	}
 
-    // **日報登録画面の表示*/
-    @GetMapping("/register")
-    public String getRegister(@ModelAttribute Report report, @AuthenticationPrincipal UserDetail user, Model model) {
-        model.addAttribute("name", user.getUser().getName());
-        // 登録画面に遷移
-        return "report/register";
-    }
+	/** 詳細画面の表示 */
+	@GetMapping("/detail/{id}/")
+	public String getDetail(@PathVariable("id") Integer id, Model model) {
+		Report report = service.getReport(id);
+		model.addAttribute("report", report);
+		// report/detail.htmlに画面遷移
+		return "report/detail";
+	}
 
-    /** 登録処理 */
-    @PostMapping("/register")
-    public String postRegister(Report report, @AuthenticationPrincipal UserDetail user) {
-        report.setEmployee(user.getUser());
-        service.saveReport(report);
+	// **日報登録画面の表示*/
+	@GetMapping("/register")
+	public String getRegister(@ModelAttribute Report report, @AuthenticationPrincipal UserDetail user, Model model) {
+		model.addAttribute("name", user.getUser().getName());
+		// 登録画面に遷移
+		return "report/register";
+	}
 
-        // index画面にリダイレクト
-        return "redirect:/report/list";
-    }
+	/** 登録処理 */
+	@PostMapping("/register")
+	public String postRegister(Report report, @AuthenticationPrincipal UserDetail user) {
+		report.setEmployee(user.getUser());
+		report.setGoodcount(0);
+		service.saveReport(report);
 
-    // 更新の表示 */
-    @GetMapping("/update/{id}/")
-    public String getUpdate(@PathVariable("id") Integer id, @AuthenticationPrincipal UserDetail user, Model model) {
-        model.addAttribute("report", service.getReport(id));
-        model.addAttribute("employee", user.getUser());
-        // report/update.htmlに画面遷移
-        return "report/update";
-    }
-    // **更新処理*/
-    @PostMapping("/update/{id}")
-    public String postUpdate(Report report, @AuthenticationPrincipal UserDetail user) {
-        report.setEmployee(user.getUser());
-        service.updateReport(report);
-   // 一覧画面にリダイレクト
-        return "redirect:/report/list";
-    }
+		// index画面にリダイレクト
+		return "redirect:/report/list";
+	}
+
+	// 更新の表示 */
+	@GetMapping("/update/{id}/")
+	public String getUpdate(@PathVariable("id") Integer id, @AuthenticationPrincipal UserDetail user, Model model) {
+		model.addAttribute("report", service.getReport(id));
+		model.addAttribute("employee", user.getUser());
+		// report/update.htmlに画面遷移
+		return "report/update";
+	}
+
+	// **更新処理*/
+	@PostMapping("/update/{id}")
+	public String postUpdate(Report report, @AuthenticationPrincipal UserDetail user) {
+		report.setEmployee(user.getUser());
+		service.updateReport(report);
+		// 一覧画面にリダイレクト
+		return "redirect:/report/list";
+	}
+
+	// *いいね画面の表示*/
+	@GetMapping("/good/{id}")
+	public String getGood(@PathVariable("id") Integer id) {
+		Report report = service.getReport(id);
+		int count = report.getGoodcount();
+		report.setGoodcount(count + 1);
+		service.saveReport(report);
+		return "redirect:/report/list";
+	}
 }

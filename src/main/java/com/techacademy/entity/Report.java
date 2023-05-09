@@ -54,4 +54,8 @@ public class Report {
     @Column(nullable = false)
     private LocalDateTime updated_at;
 
+    /** いいね機能 null不許可 */
+    @Column(nullable = false)
+    private Integer goodcount;
+
 }

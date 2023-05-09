@@ -28,6 +28,12 @@
             <th>更新日時</th>
             <td th:text="${report.updated_at}"></td>
         </tr>
+        <tr>
+            <th>いいね</th>
+            <td>
+                <p th:text="'('+${report.goodcount}+'件)'"></p>
+            <th>
+        <a th:href="@{/report/good/{id}/(id=${report.id})}">いいね</a>
     </table>
     <a th:href="@{/report/update/{id}/(id=${report.id})}">この日報を編集する</a>
     <br>

@@ -65,5 +65,12 @@ public class ReportService {
         report.setEmployee(employee);
         return repository.save(update);
     }
+    //いいね機能
+    @Transactional
+    public Report goodReport(Integer id) {
+        Report good = repository.findById(id).get();
+        good.setGoodcount(good.getGoodcount()+1);
+        return repository.save(good);
+    }
 
 }
