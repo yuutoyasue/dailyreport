@@ -89,13 +89,25 @@ public class ReportController {
 		return "redirect:/report/list";
 	}
 
-	// *いいね処理 最大5件まで*/
+	// **いいね処理 最大5件まで*/
 	@GetMapping("/good/{id}")
 	public String getGood(@PathVariable("id") Integer id) {
 		Report report = service.getReport(id);
 		int count = report.getGoodcount();
 		if (count < 5) {
 			report.setGoodcount(count + 1);
+		}
+		service.saveReport(report);
+		return "redirect:/report/list";
+	}
+
+	// **いいね取り消し 0件よりは減らないように設定*/
+	@GetMapping("/deletegood/{id}")
+	public String getDeletegood(@PathVariable("id") Integer id) {
+		Report report = service.getReport(id);
+		int count = report.getGoodcount();
+		if (count > 0) {
+			report.setGoodcount(count - 1);
 		}
 		service.saveReport(report);
 		return "redirect:/report/list";
