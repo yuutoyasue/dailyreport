@@ -48,6 +48,7 @@ public class ReportController {
 	public String getDetail(@PathVariable("id") Integer id, Model model) {
 		Report report = service.getReport(id);
 		model.addAttribute("report", report);
+
 		// report/detail.htmlに画面遷移
 		return "report/detail";
 	}
@@ -89,12 +90,14 @@ public class ReportController {
 		return "redirect:/report/list";
 	}
 
-	// *いいね画面の表示*/
+	// *いいね処理 最大5件まで*/
 	@GetMapping("/good/{id}")
 	public String getGood(@PathVariable("id") Integer id) {
 		Report report = service.getReport(id);
 		int count = report.getGoodcount();
-		report.setGoodcount(count + 1);
+		if (count < 5) {
+			report.setGoodcount(count + 1);
+		}
 		service.saveReport(report);
 		return "redirect:/report/list";
 	}

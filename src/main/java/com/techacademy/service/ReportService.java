@@ -12,65 +12,59 @@ import com.techacademy.repository.ReportRepository;
 
 @Service
 public class ReportService {
-    private final ReportRepository repository;
+	private final ReportRepository repository;
 
-    public ReportService(ReportRepository repository) {
-        this.repository = repository;
-    }
-    //index自分の日報を表示
-    public List<Report> getReportList(Employee employee) {
-        return repository.findByEmployee(employee);
-    }
+	public ReportService(ReportRepository repository) {
+		this.repository = repository;
+	}
 
-    // 一覧表示
-    public List<Report> getReportList() {
-        return repository.findAll();
-    }
+	// index自分の日報を表示
+	public List<Report> getReportList(Employee employee) {
+		return repository.findByEmployee(employee);
+	}
 
-    // 詳細表示
-    public Report getReport(Integer id) {
-        Optional<Report> option = repository.findById(id);
-        Report report = option.orElse(null);
-        return report;
-    }
+	// 一覧表示
+	public List<Report> getReportList() {
+		return repository.findAll();
+	}
 
-    // 登録を行う
-    @Transactional
-    public Report saveReport(Report report) {
-        // reportのデータをセットする
-        report.setReport_date(report.getReport_date());
-        report.setTitle(report.getTitle());
-        report.setContent(report.getContent());
-        report.setCreated_at(LocalDateTime.now());
-        report.setUpdated_at(LocalDateTime.now());
+	// 詳細表示
+	public Report getReport(Integer id) {
+		Optional<Report> option = repository.findById(id);
+		Report report = option.orElse(null);
+		return report;
+	}
 
-        Employee employee = report.getEmployee();
+	// 登録を行う
+	@Transactional
+	public Report saveReport(Report report) {
+		// reportのデータをセットする
+		report.setReport_date(report.getReport_date());
+		report.setTitle(report.getTitle());
+		report.setContent(report.getContent());
+		report.setCreated_at(LocalDateTime.now());
+		report.setUpdated_at(LocalDateTime.now());
 
-        report.setEmployee(employee);
-        // リポジトリ（report）にセーブして返す
-        return repository.save(report);
-    }
-    //更新を行う
-    @Transactional
-    public Report updateReport(Report report) {
-        Report update = repository.findById(report.getId()).get();
-        update.setReport_date(report.getReport_date());
-        update.setTitle(report.getTitle());
-        update.setContent(report.getContent());
-        update.setUpdated_at(LocalDateTime.now());
+		Employee employee = report.getEmployee();
 
-        Employee employee = update.getEmployee();
-        employee.setName(report.getEmployee().getName());
+		report.setEmployee(employee);
+		// リポジトリ（report）にセーブして返す
+		return repository.save(report);
+	}
 
-        report.setEmployee(employee);
-        return repository.save(update);
-    }
-    //いいね機能
-    @Transactional
-    public Report goodReport(Integer id) {
-        Report good = repository.findById(id).get();
-        good.setGoodcount(good.getGoodcount()+1);
-        return repository.save(good);
-    }
+	// 更新を行う
+	@Transactional
+	public Report updateReport(Report report) {
+		Report update = repository.findById(report.getId()).get();
+		update.setReport_date(report.getReport_date());
+		update.setTitle(report.getTitle());
+		update.setContent(report.getContent());
+		update.setUpdated_at(LocalDateTime.now());
 
+		Employee employee = update.getEmployee();
+		employee.setName(report.getEmployee().getName());
+
+		report.setEmployee(employee);
+		return repository.save(update);
+	}
 }
