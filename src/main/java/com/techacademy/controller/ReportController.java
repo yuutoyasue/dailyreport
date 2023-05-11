@@ -48,7 +48,6 @@ public class ReportController {
 	public String getDetail(@PathVariable("id") Integer id, Model model) {
 		Report report = service.getReport(id);
 		model.addAttribute("report", report);
-
 		// report/detail.htmlに画面遷移
 		return "report/detail";
 	}
