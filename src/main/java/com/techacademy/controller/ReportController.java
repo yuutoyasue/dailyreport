@@ -101,7 +101,7 @@ public class ReportController {
 		return "redirect:/report/list";
 	}
 
-	// **いいね取り消し*/
+	// **いいね取り消し 0件以下にはならない設定*/
 	@GetMapping("/deletegood/{id}")
 	public String getDeletegood(@PathVariable("id") Integer id) {
 		Report report = service.getReport(id);
